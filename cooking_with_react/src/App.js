@@ -9,7 +9,7 @@ export const ThemeContext = React.createContext();
 
 function App() {
   console.log("App Rendered");
-  const [theme, setTheme] = useState('red');
+  const [theme, setTheme] = useState('green');
   return (
     // Provider wraps all itn child code to be able to consume the context
     // 'value' must always be called 'value'
