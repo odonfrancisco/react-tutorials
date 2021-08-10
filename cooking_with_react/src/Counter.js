@@ -1,4 +1,6 @@
 import React, {Component} from 'react';
+// Imports theme context from app.js
+import { ThemeContext } from './App';
 
 export default class Counter extends Component {
     constructor(props) {
@@ -11,11 +13,18 @@ export default class Counter extends Component {
     render() {
         console.log("Counter Rendered");
         return(
-            <div>
-                <button onClick={() => this.changeCount(-1)}>-</button>
-                <span>{this.state.count}</span>
-                <button onClick={() => this.changeCount(1)}>+</button>
-            </div>
+            // Need to wrap everything inside of theme element again
+            <ThemeContext.Consumer>
+                {/* Parenthesis instead of curly brace means return
+                everything inside of parenthesis */}
+                {style => (
+                    <div>
+                        <button style={style} onClick={() => this.changeCount(-1)}>-</button>
+                        <span>{this.state.count}</span>
+                        <button style={style} onClick={() => this.changeCount(1)}>+</button>
+                    </div>
+                )}
+            </ThemeContext.Consumer>
         )
     }
 

@@ -1,17 +1,20 @@
-import React, {useState} from 'react';
+import React, {useState, useContext} from 'react';
+import { ThemeContext } from './App';
 
 export default function CounterHooks({initialCount}) {
     console.log('Render Counter Hooks');
     const [count, setCount] = useState(initialCount);
+    // MUCH easier to implement contextUse than with class component
+    const style = useContext(ThemeContext);
     return(
         <div>
-            <button onClick={() => 
+            <button style={style} onClick={() => 
                 setCount(prevCount => prevCount - 1)}
             >
                 -
             </button>
             <span>{count}</span>
-            <button onClick={() => 
+            <button style={style} onClick={() => 
                 setCount(prevCount => prevCount + 1)}
             >
                 +
