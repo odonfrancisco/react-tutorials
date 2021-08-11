@@ -1,0 +1,29 @@
+/* Makes each browser have the same default values,
+so when you change between different browsers, it's more
+likely your code (thus website) look the same between them 
+based on your css  */
+@import-normalize;
+@import 'buttons.css';
+@import 'recipe-list.css';
+@import 'ingredient-list.css';
+@import 'recipe.css';
+
+/* IDGAF about downloading a particular font */
+/* 
+*, *::before, *::after {
+    font-family: Gotham Rounded, sans-serif;
+} */
+
+html {
+    font-size: 25px;
+}
+
+body {
+    /* background: lightseagreen; */
+    padding: 0;
+    margin: 0;
+}
+
+.mr-1 {
+    margin-right: 5px;
+}
