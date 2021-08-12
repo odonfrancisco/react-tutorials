@@ -1,6 +1,6 @@
 import React, {useState, useEffect} from 'react';
-import RecipeList from './RecipeList';
-import RecipeEdit from './RecipeEdit';
+import RecipeList from './recipe/RecipeList';
+import RecipeEdit from './recipe/RecipeEdit';
 import { v4 as uuidv4 } from 'uuid';
 import '../css/app.css';
 
@@ -58,6 +58,9 @@ function App() {
       instructions: '',
       ingredients: [
         { id: uuidv4(), name: '', amount: ''}
+      ],
+      authors: [
+        ''
       ]
     }
 
@@ -120,6 +123,10 @@ const sampleRecipes= [
         name: 'Salt',
         amount: '1 Tbs'
       }
+    ],
+    authors: [
+      'Stephen',
+      'Arthur'
     ]
   },
   {
@@ -139,6 +146,10 @@ const sampleRecipes= [
         name: 'Paprika',
         amount: '2 Tbs'
       }
+    ],
+    authors: [
+      'Henry',
+      'Catire'
     ]
   },
 ]

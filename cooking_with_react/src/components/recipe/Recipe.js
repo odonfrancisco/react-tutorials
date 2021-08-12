@@ -1,6 +1,7 @@
 import React, { useContext } from 'react'
-import IngredientList from './IngredientList';
-import { RecipeContext } from './App';
+import IngredientList from './ingredient/IngredientList';
+import { RecipeContext } from '../App';
+import AuthorList from './author/AuthorList';
 
 export default function Recipe(props) {
     const { handleRecipeDelete, handleRecipeSelect } = useContext(RecipeContext);
@@ -11,7 +12,8 @@ export default function Recipe(props) {
         servings,
         instructions,
         ingredients,
-        // Better to use context instead
+        authors,
+        // Better to use context instead for handleRecipeDelete
         // handleRecipeDelete
     } = props;
 
@@ -63,6 +65,12 @@ export default function Recipe(props) {
                 <span className="recipe__label">Ingredients: </span>
                 <div className="recipe__value recipe__value--indented">
                     <IngredientList ingredients={ingredients}/>
+                </div>
+            </div>
+            <div className="recipe__row">
+                <span className="recipe__label">Authors: </span>
+                <div className="recipe__value recipe__value--indented">
+                    <AuthorList authors={authors}/>
                 </div>
             </div>
             

@@ -1,6 +1,7 @@
 import React, { useContext } from 'react'
-import RecipeIngredientEdit from './RecipeIngredientEdit'
-import { RecipeContext } from './App';
+import RecipeIngredientEdit from './ingredient/RecipeIngredientEdit'
+import AuthorEdit from './author/AuthorEdit';
+import { RecipeContext } from '../App';
 import { v4 as uuidv4 } from 'uuid';
 
 
@@ -30,6 +31,26 @@ export default function RecipeEdit({ recipe }) {
     function handleIngredientDelete(id) {
         handleChange({ 
             ingredients: recipe.ingredients.filter(i => i.id !== id)
+        })
+    }
+
+    function handleAuthorAdd() {
+        handleChange({
+            authors: [...recipe.authors, '']
+        });
+    }
+
+    function handleAuthorChange(index, author) {
+        const newAuthors = [...recipe.authors];
+        newAuthors[index] = author;
+        console.log("handle auth RE");
+        console.log(author);
+        handleChange({authors: newAuthors})
+    }
+
+    function handleAuthorDelete(index) {
+        handleChange({
+            authors: recipe.authors.filter((a, i) => i !== index)
         })
     }
     
@@ -129,7 +150,26 @@ export default function RecipeEdit({ recipe }) {
                     Add Ingredient
                 </button>
             </div>
-            
+            <label className="recipe-edit__label">Authors</label>
+            <br/>
+            <br/>
+            {recipe.authors.map((author, i) => (
+                <AuthorEdit
+                    key={i}
+                    index={i}
+                    author={author}
+                    handleAuthorChange={handleAuthorChange}
+                    handleAuthorDelete={handleAuthorDelete}
+                />
+            ))}
+            <div className="recipe-edit__add-ingredient-btn-container">
+                <button
+                    className="btn btn--primary"
+                    onClick={handleAuthorAdd}
+                >
+                    Add Author
+                </button>
+            </div>
         </div>
     )
 }

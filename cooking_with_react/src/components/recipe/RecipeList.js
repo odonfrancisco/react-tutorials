@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useContext } from 'react'
-import { RecipeContext } from './App';
+import { RecipeContext } from '../App';
+import SearchBar from '../SearchBar';
 import Recipe from './Recipe'
-import SearchBar from './SearchBar';
 
 export default function RecipeList({ recipes }) {
     const [filteredRecipes, setfilteredRecipes] = useState(recipes)
