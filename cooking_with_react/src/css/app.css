@@ -7,12 +7,19 @@ based on your css  */
 @import 'recipe-list.css';
 @import 'ingredient-list.css';
 @import 'recipe.css';
+@import 'recipe-edit.css';
 
 /* IDGAF about downloading a particular font */
-/* 
+
 *, *::before, *::after {
-    font-family: Gotham Rounded, sans-serif;
-} */
+    /* font-family: Gotham Rounded, sans-serif; */
+    /* Width we define inside 
+    css will actually be an accumulation
+    of all padding, margin, etc, so it will
+    never actually overflow the width we define.
+    easier to work with css when we do this */
+    box-sizing: border-box;
+}
 
 html {
     font-size: 25px;

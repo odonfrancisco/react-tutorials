@@ -1,15 +1,39 @@
-import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react';
 import RecipeList from './RecipeList';
+import RecipeEdit from './RecipeEdit';
 import '../css/app.css';
 import { v4 as uuidv4 } from 'uuid';
 
+export const RecipeContext = React.createContext();
+/* Good practice is to preface the name with the name 
+of your application, so that when you're in your dev tools
+looking at all the local storage keys, this one becomes
+easy to distinguish */
+const LOCAL_STORAGE_KEY = 'cookingWithReact.recipes';
+
 function App() {
   const [recipes, setRecipes] = useState(sampleRecipes);
-  
-  return (
-    <RecipeList recipes={recipes}/>
-  )
 
+  useEffect(() => {
+    const recipeJSON = localStorage.getItem(LOCAL_STORAGE_KEY);
+    if(recipeJSON != null) setRecipes(JSON.parse(recipeJSON));
+  }, [])
+
+  useEffect(() => {
+    /* localStorage.setItem only takes in string, therefore
+    must convert js array to a string */
+    localStorage.setItem(LOCAL_STORAGE_KEY, JSON.stringify(recipes));
+    /* If you have a return value inside useEffect
+    with a dependency, then this ruturn will be called
+    everytime this hook is re-called. not the first time it's called */
+    // return () => console.log('recipes set'); 
+  }, [recipes])
+  
+  const recipeContextValue = {
+    handleRecipeAdd,
+    handleRecipeDelete
+  }
+  
   /* He uses handle as function prefix to distinguish
   functions called by clicking a button */
   function handleRecipeAdd() {
@@ -29,6 +53,17 @@ function App() {
 
     setRecipes([...recipes, newRecipe]);
   }
+
+  function handleRecipeDelete(id) {
+    setRecipes(recipes.filter(recipe => recipe.id !== id));
+  }
+
+  return (
+    <RecipeContext.Provider value={recipeContextValue}>
+      <RecipeList recipes={recipes}/>
+      <RecipeEdit />
+    </RecipeContext.Provider>
+  )
 }
 
 const sampleRecipes= [

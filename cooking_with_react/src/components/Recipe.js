@@ -1,14 +1,29 @@
-import React from 'react'
+import React, { useContext, useEffect } from 'react'
 import IngredientList from './IngredientList';
+import { RecipeContext } from './App';
 
 export default function Recipe(props) {
+    const {handleRecipeDelete} = useContext(RecipeContext);
     const {
+        id,
         name,
         cookTime,
         servings,
         instructions,
-        ingredients
+        ingredients,
+        // Better to use context instead
+        // handleRecipeDelete
     } = props;
+
+    /* code runs when component is dismounted. good for
+    deleting event listeners that were established */
+    // useEffect(() => {
+    //     console.log('Rendered in Recipe.js');
+    //     return () => {
+    //         console.log('Unmount Recipe.js');
+    //     }
+    // }, [])
+
     return (
         <div className="recipe">
             {/* Header section */}
@@ -16,7 +31,14 @@ export default function Recipe(props) {
                 <h3 className="recipe__title">{name}</h3>
                 <div>
                     <button className="btn btn--primary mr-1">Edit</button>
-                    <button className="btn btn--danger">Delete</button>
+                    <button 
+                        className="btn btn--danger"
+                        onClick={() => {
+                            handleRecipeDelete(id)
+                        }}
+                    >
+                            Delete
+                    </button>
                 </div>
             </div>
             <div className="recipe__row">
