@@ -1,23 +1,29 @@
-import React, { useContext } from 'react'
-import Recipe from './Recipe'
+import React, { useState, useEffect, useContext } from 'react'
 import { RecipeContext } from './App';
+import Recipe from './Recipe'
+import SearchBar from './SearchBar';
 
 export default function RecipeList({ recipes }) {
+    const [filteredRecipes, setfilteredRecipes] = useState(recipes)
     const {handleRecipeAdd} = useContext(RecipeContext);
-    // const {
-    //     recipes,
-    //     handleRecipeAdd,
-    //     /* use context instead because delete function
-    //     only used by recipe component, so we get rid 
-    //     of this intermediary prop */
-    //     handleRecipeDelete
-    // } = props;
+
+    useEffect(() => {
+        setfilteredRecipes(recipes);
+    }, [recipes]);
+
+    function handleRecipeQuery(recipeList) {
+        setfilteredRecipes(recipeList);
+    }
 
     return (
         <div className="recipe-list">
+            <SearchBar 
+                recipes={recipes}
+                handleSearch={handleRecipeQuery}
+            />
             <div>
                 {
-                    recipes.map(recipe => (
+                    filteredRecipes.map(recipe => (
                         <Recipe key={recipe.id} {...recipe}/>       
                     ))
                 }

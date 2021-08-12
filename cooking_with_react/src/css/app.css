@@ -4,10 +4,11 @@ likely your code (thus website) look the same between them
 based on your css  */
 @import-normalize;
 @import 'buttons.css';
-@import 'recipe-list.css';
 @import 'ingredient-list.css';
-@import 'recipe.css';
-@import 'recipe-edit.css';
+@import 'search-bar.css';
+@import './recipe/recipe.css';
+@import './recipe/recipe-list.css';
+@import './recipe/recipe-edit.css';
 
 /* IDGAF about downloading a particular font */
 

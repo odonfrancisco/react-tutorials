@@ -1,8 +1,8 @@
 import React, {useState, useEffect} from 'react';
 import RecipeList from './RecipeList';
 import RecipeEdit from './RecipeEdit';
-import '../css/app.css';
 import { v4 as uuidv4 } from 'uuid';
+import '../css/app.css';
 
 export const RecipeContext = React.createContext();
 /* Good practice is to preface the name with the name 
@@ -12,7 +12,11 @@ easy to distinguish */
 const LOCAL_STORAGE_KEY = 'cookingWithReact.recipes';
 
 function App() {
+  const [selectedRecipeId, setSelectedRecipeId] = useState();
   const [recipes, setRecipes] = useState(sampleRecipes);
+  const selectedRecipe = recipes.find(
+    recipe => recipe.id === selectedRecipeId
+  );
 
   useEffect(() => {
     const recipeJSON = localStorage.getItem(LOCAL_STORAGE_KEY);
@@ -31,9 +35,15 @@ function App() {
   
   const recipeContextValue = {
     handleRecipeAdd,
-    handleRecipeDelete
+    handleRecipeDelete,
+    handleRecipeSelect,
+    handleRecipeChange
   }
   
+  function handleRecipeSelect(id) {
+    setSelectedRecipeId(id);
+  }
+
   /* He uses handle as function prefix to distinguish
   functions called by clicking a button */
   function handleRecipeAdd() {
@@ -41,27 +51,53 @@ function App() {
     const newRecipe = {
       // a library to generate ID-hashes
       id: uuidv4(),
-      name: 'New',
+      name: '',
       servings: 1,
-      cookTime: '1:00',
-      cookTime: '1:00',
-      instructions: 'Instr.',
+      cookTime: '',
+      cookTime: '',
+      instructions: '',
       ingredients: [
-        { id: uuidv4(), name: 'Name', amount: '1 Tbs'}
+        { id: uuidv4(), name: '', amount: ''}
       ]
     }
 
+    setSelectedRecipeId(newRecipe.id);
     setRecipes([...recipes, newRecipe]);
   }
 
+  function handleRecipeChange(id, recipe) {
+    /* cannot change state of your recipes without using setRecipes
+    therefore we create a duplicate array that we can manipulate
+    to then save to recipes state array */
+    const newRecipes = [...recipes];
+    // console.log("APPJS FILTERED");
+    // console.log(newRecipes.filter(e => e.name.length > 0));
+    const index = newRecipes.findIndex(r => r.id === id);
+    newRecipes[index] = recipe;
+    setRecipes(newRecipes);
+  }
+
   function handleRecipeDelete(id) {
+    if(selectedRecipeId !== null && selectedRecipeId === id) {
+      setSelectedRecipeId(undefined);
+    }
     setRecipes(recipes.filter(recipe => recipe.id !== id));
   }
 
   return (
     <RecipeContext.Provider value={recipeContextValue}>
       <RecipeList recipes={recipes}/>
-      <RecipeEdit />
+      {/* So apparently this code will evaluate if a 
+      selectedRecipe exists, and if it does, the code will
+      evaluate the next thing after the && and it'll return second part */}
+      {/* So if selectedRecipe is undefined, the code will immediately
+      stop running since undefined && literally anything else will
+      equate to undefined */}
+      {/* Same as doing a ternary as below */}
+      {/* {selectedRecipe ? <chreast/> : null} */}
+      {/* Both syntaxes are the same, but the one below is cleaner 
+      & more common */}
+      {selectedRecipe && <RecipeEdit recipe={selectedRecipe}/>}
     </RecipeContext.Provider>
   )
 }

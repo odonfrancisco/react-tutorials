@@ -8,3 +8,8 @@ ReactDOM.render(
   </React.StrictMode>,
   document.getElementById('root')
 );
+
+// Create a search box at top of list. dynamic as you type
+/* Add another section to recipeList & recipe for the people who created 
+this recipe. */
+
